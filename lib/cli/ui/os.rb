@@ -1,10 +1,12 @@
+require 'rbconfig'
+
 module CLI
   module UI
     module OS
       # Determines which OS is currently running the UI, to make it easier to
       # adapt its behaviour to the features of the OS.
       def self.current
-        @current_os ||= case RUBY_PLATFORM
+        @current_os ||= case RbConfig::CONFIG['host_os']
         when /darwin/
           Mac
         when /linux/
@@ -12,7 +14,7 @@ module CLI
         when /mingw32/
           Windows
         else
-          raise "Could not determine OS from platform #{RUBY_PLATFORM}"
+          raise "Could not determine OS from host_os #{RbConfig::CONFIG['host_os']}"
         end
       end
 
